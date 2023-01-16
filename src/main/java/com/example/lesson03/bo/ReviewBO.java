@@ -27,4 +27,12 @@ public class ReviewBO {
 	public int addReviewAsField(int storeId,String menu,String userName,Double point,String review) {		
 		return reviewDAO.insertReviewAsField(storeId, menu, userName, point, review);
 	}//자동완성믿지말것, 복붙하기, 순서확인
+	
+	public int updateReviewById(int id,String review) {
+		return reviewDAO.updateReviewById(id,review);
+	}
+	
+	public void deleteReviewById(int id) {
+		reviewDAO.deleteReviewById(id);
+	}
 }

@@ -57,4 +57,8 @@ public class Lesson05Controller {
 		model.addAttribute("today", now);
 		return"lesson05/ex03";
 	}
+	@GetMapping("/ex04")
+	public String ex04() {
+		return"lesson05/ex04";
+	}
 }

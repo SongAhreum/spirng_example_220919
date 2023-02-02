@@ -5,18 +5,20 @@
 <head>
 <meta charset="UTF-8">
 	<!-- bootstrap CDN link -->
-  	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-  	<%-- AJAX를 사용하려면 더 많은 함수가 있는 js를 포함해야 한다. --%>
- 	<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
- 	<!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> -->
- 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
- 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <%-- AJAX를 사용하려면 더 많은 함수가 있는 js를 포함해야 한다. --%>
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+  <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
 <title>회원가입</title>
 </head>
 <body>
 	<div class="container">
 		<h1>회원가입</h1>
+		
 		<form method="post" action="/lesson06/ex01/add_user">
 			<div class="form-group">
 				<label for="name">이름</label>
@@ -38,7 +40,7 @@
 			<!-- <input type="submit" class="btn btn-success" value="화원가입"> -->
  		
  			<!-- AJAX를 위한 !!버튼!! -->
- 			<!-- 그냥 button태그로 만들었는데 type을 안쓰면 기본으로 submit이 됨, ajax가 잘 수행이안됨 -->
+ 			<!-- 그냥 button태그로 만들었는데 type을 안쓰면 기본으로 submit이 됨, ajax가 잘 수행이안됨,type꼭 명시! -->
  			<input id="join" type="button" class="btn btn-success" value="화원가입"> 
  		</form>
 	</div>
@@ -46,7 +48,10 @@
 	<script>
 	
 		$(document).ready(function(){
+			
 			//1)jquery의 submit기능 이용하기
+			
+			//(.on('click',function(){})으로 해도됨) 
 			/* $('form').on('submit',function(e){
 				//alert("서브밋");
 				//e.preventDefault();//서브밋 되는 것을 막는다.(기본서브밋막아놓고 validation처리 후 따로함수를써 원하는 타이밍에 서브밋 할때 사용)
@@ -58,7 +63,7 @@
 					return false; //submit인경우 return false해야 서브밋 되지않는다
 				}
 				let yyyymmdd = $('#yyyymmdd').val().trim();
-				if (yyyymmdd.length == '') {
+				if (yyyymmdd.length < 1) {
 					alert('생년월일을 입력하세요');
 					return false;
 				}
@@ -69,11 +74,12 @@
 			//2)jquery의 AJAX통신 이용하기(ajax:form과 submit을 같이쓰지말것, form안써도됨)
 			$('#join').on('click',function(){
 				//alert("aaaa");
+				
 				//validation 서버에보내기전에 해야함
 				let name = $('#name').val().trim();
 				if (name.length == '') {
 					alert('이름을 입력하세요');
-					return ; 
+					return; //submit이아니라 click이벤트기 때문에 return false;안해도됨
 				}
 				let yyyymmdd = $('#yyyymmdd').val().trim();
 				if (yyyymmdd.length == '') {
@@ -90,16 +96,19 @@
 				let introduce = $('#introduce').val().trim();
 				console.log(introduce);
 				
-				//AJAX
+				//AJAX(비동기로 별도 요청)
 				$.ajax({
 					//Request
-					type:"POST" //type소문자!!
-					, url:"/lesson06/ex01/add_user"
-					, data:{"name":name,"yyyymmdd":yyyymmdd,"email":email,"introduce",introduce} //변수가 안만들어져도 보내짐!주의
+					type:"POST" //type(key명)소문자!!
+					, url:"/lesson06/ex01/add_user" 
+					//반드시 @ResponsBody가 붙어있는(데이터만내려주는 방식으로만 호출)(String으로 반환하고 view화면(jsp)으로 가는 경우 절대 안됨)
+					, data:{"name":name,"yyyymmdd":yyyymmdd,"email":email,"introduce":introduce} //변수가 안만들어져도 보내짐!주의
 					
 					//Response  변수이름 data(관례적)
 					, success:function(data){
 						alert(data);
+						//화면이동
+						location.href = "/lesson06/ex01/after_add_user_view";
 					}
 					, complete:function(data){ //success error위주로만씀
 						alert("완료");
@@ -107,7 +116,7 @@
 					, error:function(e){
 						alert("에러");
 					}
-				})
+				}) 
 			})
 		});
 	</script>

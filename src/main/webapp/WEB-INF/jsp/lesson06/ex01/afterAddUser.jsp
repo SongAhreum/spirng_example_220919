@@ -7,6 +7,6 @@
 <title>완료</title>
 </head>
 <body>
-
+	<h1>성공</h1>
 </body>
 </html>

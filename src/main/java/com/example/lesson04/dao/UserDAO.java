@@ -13,4 +13,6 @@ public interface UserDAO {
 			@Param("email") String email,
 			@Param("introduce") String introduce);
 	public User selectLastUser();
+	
+	public boolean existUserByName(String name);
 }
